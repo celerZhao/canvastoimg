@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <!--禁止IOS识别号码 -->
+    <meta content="email=no" name="format-detection" />
+    <title>光汇云油-“浪漫七夕”我的古代情人</title>
+    <link rel="stylesheet" href="css/global-mobile-qx.css">
+    <link rel="stylesheet" href="css/qx.css">
+    <script type="text/javascript">
+    (function(doc, win) {
+        var cssEl = document.createElement('style');
+        document.documentElement.firstElementChild.appendChild(cssEl);
+        var docEl = doc.documentElement,
+             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+             recalc = function() {
+                 window.clientWidth = docEl.clientWidth;
+                 if (!window.clientWidth) return;
+                 var dpr = 1;
+                 var pxPerRem = document.documentElement.clientWidth * dpr / 32;
+                 if (pxPerRem < 10) pxPerRem = 10;
+                 if (pxPerRem > 20) pxPerRem = 20;
+                 cssEl.innerHTML = 'html{font-size:' + pxPerRem + 'px!important;}';
+             };
+
+        try {
+            recalc();
+        } catch (e) {
+
+        }
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    </script>
+</head>
+<body>
+    <div class="container bg2" id="screenArea">
+        <div class="title-txt"><img src="img/txt01.png" /></div>
+
+        <div class="img-cons">
+            <div><img src="img/img01.png" /></div>
+            <div class="txt">
+                <p>光汇“浪漫七夕”情人节期间（8月11日至8月31日），新注册用户，即可参与测试古代女友送3L油活动</p>
+                <p>浪漫七夕</p>
+                <p>浪漫</p>
+            </div>
+        </div>
+
+        <div class="qr-code-share">
+            <div class="qr-left">
+                <div class="qr-code-img"><img src="img/qr-code.png" /></div>
+                <p class="text-nowrap">长按识别二维码<br />看看你的古代情人</p>
+            </div>
+            <div class="qr-right user-head" id="photo"><div><img src="img/userhead.png" /></div></div>
+        </div>
+    </div>
+
+    <div class="maskbox" id="mask"> <p class="text-center text-gray fs-16 mt-10">长按图片，保存本地</p></div>
+    <div class="shotimg" id="shotImg"></div>
+
+    <!--<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/html2canvas.js"></script>
+    <script src="js/bOilPlugInQx.js"></script>
+    <script type="text/javascript">
+        var bOilApp = new bOilPlugIn(),
+          App = {
+              init: function() {
+
+                  $("#photo").on("click",function(){
+                      var screenArea = $("#screenArea").get(0);
+                      html2canvas(screenArea).then(function(canvas) {
+                          $("body").append($(canvas).hide());
+
+                          var image    = $("body canvas").get(0).toDataURL("image/png");
+
+                          $("#shotImg").empty().append('<img src="'+image+'" alt="from canvas"/>');
+                          $("#mask,#shotImg").show();
+                      });
+                  });
+
+                  $("#shotImg").on("click",function(){
+                      $("#mask,#shotImg").hide();
+                      App.download();
+
+                  })
+              },
+
+          //下载图片
+            download:function() {
+                var myCanvas = $("body canvas").get(0);
+                var image = myCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                this.downloadFile('测试.png', image);
+            },
+            //下载
+            downloadFile:function(fileName, content) {
+                let aLink = document.createElement('a');
+                let blob = this.base64ToBlob(content); //new Blob([content]);
+
+                let evt = document.createEvent("HTMLEvents");
+                evt.initEvent("click", true, true);//initEvent 不加后两个参数在FF下会报错  事件类型，是否冒泡，是否阻止浏览器的默认行为
+                aLink.download = fileName;
+                aLink.href = URL.createObjectURL(blob);
+
+                // aLink.dispatchEvent(evt);
+                aLink.click()
+            },
+              //base64转blob
+            base64ToBlob:function(code) {
+                let parts = code.split(';base64,');
+                let contentType = parts[0].split(':')[1];
+                let raw = window.atob(parts[1]);
+                let rawLength = raw.length;
+
+                let uInt8Array = new Uint8Array(rawLength);
+
+                for (let i = 0; i < rawLength; ++i) {
+                    uInt8Array[i] = raw.charCodeAt(i);
+                }
+                return new Blob([uInt8Array], {type: contentType});
+            }
+          };
+
+        $(window).load(function() {
+            App.init();
+        });
+    </script>
+</body>
+</html>

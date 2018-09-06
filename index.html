@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <!--禁止IOS识别号码 -->
+    <meta content="email=no" name="format-detection" />
+    <title>光汇云油-“浪漫七夕”我的古代情人</title>
+    <link rel="stylesheet" href="css/global-mobile-qx.css">
+    <link rel="stylesheet" href="css/qx.css">
+    <script type="text/javascript">
+    (function(doc, win) {
+        var cssEl = document.createElement('style');
+        document.documentElement.firstElementChild.appendChild(cssEl);
+        var docEl = doc.documentElement,
+             resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+             recalc = function() {
+                 window.clientWidth = docEl.clientWidth;
+                 if (!window.clientWidth) return;
+                 var dpr = 1;
+                 var pxPerRem = document.documentElement.clientWidth * dpr / 32;
+                 if (pxPerRem < 10) pxPerRem = 10;
+                 if (pxPerRem > 20) pxPerRem = 20;
+                 cssEl.innerHTML = 'html{font-size:' + pxPerRem + 'px!important;}';
+             };
+
+        try {
+            recalc();
+        } catch (e) {
+
+        }
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="text-right logo"><img src="img/logo.png" /></div>
+        <div class="banner"><img src="img/banner.png" /></div>
+
+        <div class="login">
+            <div class="login-input">
+                <input id="userPhone" type="tel" maxlength="11" placeholder="请输入手机号码" />
+            </div>
+            <div class="login-input">
+                <input id="phoneCode" type="tel" maxlength="6" placeholder="请输入短信验证码" />
+                <span id="phoneCodeBtn" class="sms-code">获取验证码</span>
+            </div>
+            <div class="login-input" style="display:none;">
+                <input id="imgCode" type="tel" maxlength="4" placeholder="请输入图形验证码" />
+                <span class="img-code">图形验证码</span>
+            </div>
+            <div class="login-radio">
+                <span class="active">男</span>
+                <span>女</span>
+            </div>
+
+            <a class="btn-mate" href="javascript:;"><img src="img/btn01.png" /></a>
+        </div>
+
+        <div class="text-center"><a class="link-share" href="javascript:;">我要分享</a></div>
+
+        <div class="rule">
+            <p>1、光汇“浪漫七夕”情人节期间（8月11日至8月31日），新注册用户，即可参与测试古代女友送3L油活动</p>
+            <p>2、获得的3L油，可在光汇云油APP的【我的】-【获赠油包】中查看。</p>
+            <p>3、获得的3L油，有效期为20天；适用于3个月期及以上的汇油宝，光汇储油卡，起购金额为1000元起（100%折扣）抵扣。</p>
+            <p>4、本活动与APPLE.INC无关，活动最终解释权归光汇云油所有，如有疑问请致电客服热线 <a href=""></a>400-809-8888</p>
+            <div class="mt-15">*特此说明： 8月19日前“浪漫七夕”活动送“光汇719储油节”的6L油包，8月19后送“浪漫七夕”专属的3L油包。</div>
+        </div>
+    </div>
+
+
+    <!--分享弹窗 s-->
+    <div class="maskbox"></div>
+    <div class="share-popup"><img src="img/img-share.png" /><p class="mt-10 btn-back"><a class="text-white" href="javascript:;">返回</a></p></div>
+    <!--分享弹窗 e-->
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/bOilPlugInQx.js"></script>
+    <script type="text/javascript">
+    var bOilApp = new bOilPlugIn(),
+         App = {
+             init: function() {
+                 //点击验证码时校验
+                 $('#phoneCodeBtn').on('click', function() {
+                     var _this = this, thisId = $(_this).attr('id'), res = bOilApp.getPhoneCord(_this, 'userPhone');
+                     if (App.status) {//后端开发
+                         if (res) {
+                             //前端校验通过,后端请求
+                             $.ajax({
+                                 url: '',
+                                 dataType: '',
+                                 data: {},
+                                 type: 'post',
+                                 success: function() {
+                                     //to do something...
+
+                                     //执行倒计时
+                                     bOilApp.codeTime(thisId, res, 120);
+                                 },
+                                 error: function() {
+
+                                 }
+                             });
+                         }
+                     } else {//前端开发
+                         if (res) {
+                             //执行倒计时
+                             bOilApp.codeTime(thisId, res, 120);
+                         }
+                     }
+                 });
+
+                 //点击提交按钮时校验
+                 $('.btn-mate').on('click', function() {
+                     var _this = this, res = bOilApp.submintForm(_this, '#userPhone', '#phoneCode');
+
+                     if (App.status) {
+                         if (res) {
+                             //前端校验通过,后端请求
+                             $.ajax({
+                                 url: '',
+                                 dataType: '',
+                                 data: {},
+                                 type: 'post',
+                                 success: function() {
+                                     window.location.href = '';
+                                     //等候加载提示
+                                     bOilApp.alertMsg(bOilApp.loadingText, _this, 'loading');
+                                 },
+                                 error: function() {
+
+                                 }
+                             });
+                         }
+                     } else {
+                         if (res) {
+                             window.location.href = '';
+                             //跳转页面前的等候加载提示
+                             bOilApp.alertMsg(bOilApp.loadingText, _this, 'loading');
+                         }
+                     }
+                 });
+
+                 //性别选择
+                 $('.login-radio span').on('click', function(){
+                     $(this).addClass('active').siblings().removeClass('active')
+                 })
+
+                 //分享
+                 $('.link-share').click(function(){
+                     $('.maskbox, .share-popup').show();
+                 });
+                 $('.btn-back').click(function() {
+                     $('.maskbox, .share-popup').hide();
+                 });
+
+             }
+         };
+
+    $(window).load(function() {
+        App.init();
+    });
+    </script>
+</body>
+</html>
